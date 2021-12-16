@@ -1,25 +1,37 @@
 package com.example.tictactoc;
 
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Optional;
 
-@RestController
-public class matchMakingService {
-    private ArrayList<Integer> queues;
-
+@Service
+public class MatchMakingService {
+//    @Autowired
+//    private QueueRepository queueRepository;
     @Autowired
-    private RabbitTemplate rabbitTemplate;
+    private PlayerRepository playerRepository;
 
-    @RequestMapping(value = "/matching/{id}",method = RequestMethod.GET)
-    public String matchMaking(@PathVariable("id") int id){
-        System.out.println("Test : " + id );
-        queues.add(id);
-        return "Success";
+    public MatchMakingService(PlayerRepository playerRepository){
+//        this.queueRepository = queueRepository;
+        this.playerRepository = playerRepository;
     }
+    public Player findPlayerById(String id){
+        if(playerRepository.existsById(id)) {
+        return playerRepository.findById(id).get();}
+        else {
+            return null;
+        }
+    }
+//    public Player addQueue(Player player){
+//        return queueRepository.save(player);
+//    }
+//    public boolean deleteQueue(Player player){
+//        try {queueRepository.delete(player); return true;}
+//        catch (Exception e) {return false;}
+//    }
+//    public boolean checkQueue(){
+//        int numQueue = (int)queueRepository.count();
+//        return numQueue >= 2;
+//    }
 }
