@@ -1,5 +1,6 @@
 package com.example.tictactoe.queue;
 
+import com.example.tictactoe.player.Player;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,23 @@ public class QueueService {
 //        }
 //    }
 
-    public List<Queue> findAllPlayer(){
+    public List<Queue> findAllQueue(){
         return repository.findAll();
     }
+
+    public Queue newQueue(Queue queue) {
+        return repository.save(queue);
+    }
+
+    public Queue joinQueue(Queue queue) {
+        return repository.save(queue);
+    }
+
+    public Queue observerQueueById(String id){
+        return repository.findById(id).get();
+    }
+    public void deleteQueueById(String id){
+        repository.deleteById(id);
+    }
+
 }

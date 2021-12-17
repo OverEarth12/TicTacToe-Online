@@ -9,19 +9,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Queue {
     @Id
     private String _id;
-//    private String name;
+    private String host_name;
+    private String participant;
 
     public Queue(){}
-    public Queue(String id, String name){
+    public Queue(String id, String name, String participant){
         this._id = id;
-//        this.name = name;
+        this.host_name = name;
+        this.participant = participant;
     }
-
-    public String get_id() {
-        return _id;
-    }
-//
-//    public String getName() {
-//        return name;
-//    }
 }

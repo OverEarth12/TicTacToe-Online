@@ -29,9 +29,9 @@ export default function App() {
           screenOptions={{
             headerShown: false
           }}>
+        <MainNavigator.Screen name="Main" component={Main}/>
         <MainNavigator.Screen name="Game" component={Game}/>
         <MainNavigator.Screen name="Win" component={Win}/>
-        <MainNavigator.Screen name="Main" component={Main}/>
         <MainNavigator.Screen name="Rank" component={Rank}/>
         <MainNavigator.Screen name="Lose" component={Lose}/>
 
