@@ -16,7 +16,7 @@ public class QueueController {
     private ArrayList<Queue> queues;
 
     @Autowired
-    private QueueService playerService;
+    private QueueService queueService;
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
@@ -39,7 +39,7 @@ public class QueueController {
 //    }
     @RequestMapping(value = "/qfindAll",method = RequestMethod.GET)
     public ResponseEntity<?> matchMaking(){
-        List<Queue> players = playerService.findAllPlayer();
+        List<Queue> players = queueService.findAllPlayer();
             return ResponseEntity.ok(players);
     }
     @RequestMapping(value = "/play/{message}", method = RequestMethod.POST)
