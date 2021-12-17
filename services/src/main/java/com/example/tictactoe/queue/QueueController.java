@@ -1,7 +1,9 @@
 package com.example.tictactoe.queue;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,10 +15,10 @@ import java.util.List;
 public class QueueController {
     private ArrayList<Queue> queues;
 
-//    @Autowired
-//    private RabbitTemplate rabbitTemplate;
     @Autowired
     private QueueService playerService;
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
 //    @RequestMapping(value = "/matching/{id}",method = RequestMethod.GET)
 //    public ResponseEntity<?> matchMaking(@PathVariable("id") String id){
@@ -39,5 +41,10 @@ public class QueueController {
     public ResponseEntity<?> matchMaking(){
         List<Queue> players = playerService.findAllPlayer();
             return ResponseEntity.ok(players);
+    }
+    @RequestMapping(value = "/play/{message}", method = RequestMethod.POST)
+    public String playField(@PathVariable("message") String message){
+        Object m = rabbitTemplate.convertSendAndReceive("Direct","Field",message);
+        return (String)m;
     }
 }
