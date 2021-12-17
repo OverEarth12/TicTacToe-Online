@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class Consumer {
-    @RabbitListener(queues = "Field")
+    @RabbitListener(queues = "FieldQueue")
     public String queuesField(String message){
         System.out.println("Hello,"+ message);
         return message;
