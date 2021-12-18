@@ -13,16 +13,16 @@ public class MatchMakingService {
     public MatchMakingService(MatchMakingRepository repository){
         this.repository = repository;
     }
-//    public Player findPlayerById(String id){
-//        if(playerRepository.existsById(id)) {
-//            return playerRepository.findById(id).get();
-//        }
-//        else {
-//            return null;
-//        }
-//    }
-
-    public List<Queue> findAllRoom(){
+    public List<MatchMaking> findAllMatch(){
         return repository.findAll();
+    }
+    public MatchMaking findMatchById(String id){
+        return repository.findById(id).get();
+    }
+    public MatchMaking createRoom(MatchMaking matchMaking) {
+        return repository.save(matchMaking);
+    }
+    public MatchMaking updateTable(MatchMaking matchMaking) {
+        return repository.save(matchMaking);
     }
 }

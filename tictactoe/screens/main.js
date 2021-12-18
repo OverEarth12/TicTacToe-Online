@@ -38,7 +38,7 @@ const Main = ({ navigation }) => {
             console.log("Found")
             axios.get(`/joinQueue?id=${res.data[0]._id}&name=${res.data[0].host_name}&participant=${authentication.getProfile.displayName}`).then((res) => {
                 console.log("Joining")
-                authentication.setGameDetail(res.data)
+                authentication.setGameDetail(Object.assign({"player": 1}, res.data))
                 navigation.navigate("Game")
                 setOnQueue(false)
             })
@@ -46,29 +46,43 @@ const Main = ({ navigation }) => {
         else{
             axios.get(`/newQueue?name=${authentication.getProfile.displayName}`).then((res) => {
                 console.log("New Queue")
+                authentication.setGameDetail(Object.assign({"player": 0}, res.data))
                 const observerInterval = setInterval(() => {
                     axios.get(`/observerQueueById?id=${res.data._id}`).then((observerQueue) => {
                         if(observerQueue.data.participant){
                           axios.get(`/deleteQueueById?id=${res.data._id}`).then(() => {
-                            clearInterval(observerInterval)
-                            authentication.setGameDetail(observerQueue.data)
-                            navigation.navigate("Game")
-                            setOnQueue(false)
+                            axios.get(`/createMatch?room_id=${res.data._id}`).then(() => {
+                              clearInterval(observerInterval)
+                              navigation.navigate("Game")
+                              setOnQueue(false)
+                            })
                           })
                         }
-                    })
-                }, 1000);
+                      })
+                    }, 1000);
             })
         }
     })
+}
+const cancelMatch = () => {
+  setOnQueue(false)
+  if(authentication.getGameDetail._id !== null){
+    axios.get(`/deleteQueueById?id=${authentication.getGameDetail._id}`).then(() => {
+      console.log("Cancel Queue")
+    })
+  }
 }
 
   const authenticateProfile = () => {
     // authentication.setProfile()
     axios.get(`/findPlayerByName?name=${playerName}`).then((res) => {
       if (res.data === "Player does not exist") {
+        axios.get(`/new-player?name=${playerName}`).then((res) => {
+          console.log("Create New Player");
+          authentication.setProfile(res.data)
         authentication.setProfile({displayName: "Test"})
           setOnQueue(true)
+        })
       } else {
         authentication.setProfile(res.data)
         setOnQueue(true)
@@ -104,7 +118,7 @@ const Main = ({ navigation }) => {
             <Text>{authentication.getProfile.displayName}</Text>
             <Pressable
               style={[styles.button, styles.buttonClose, {marginTop: 20}]}
-              onPress={() => setOnQueue(false)}
+              onPress={() => cancelMatch()}
               >
               <Text style={styles.textStyle}>Cancel</Text>
             </Pressable>

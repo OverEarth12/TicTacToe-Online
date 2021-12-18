@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MatchMakingRepository extends MongoRepository<Queue, String> {
+public interface MatchMakingRepository extends MongoRepository<MatchMaking, String> {
 //    @Query(value="{name:'?0'}")
 //    public Player findByName(String name);
 }

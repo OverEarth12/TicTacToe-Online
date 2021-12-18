@@ -1,8 +1,12 @@
 import { makeAutoObservable } from 'mobx'
 
 class Auth {
-  profile = {}
-  gameDetail = {}
+  profile = {
+    displayName: "japanapi"
+  }
+  gameDetail = {
+    host_name: "Bank"
+  }
 
   constructor() {
     makeAutoObservable(this)

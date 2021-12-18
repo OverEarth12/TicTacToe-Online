@@ -31,8 +31,8 @@ export default function App() {
           }}>
         <MainNavigator.Screen name="Main" component={Main}/>
         <MainNavigator.Screen name="Game" component={Game}/>
-        <MainNavigator.Screen name="Win" component={Win}/>
         <MainNavigator.Screen name="Rank" component={Rank}/>
+        <MainNavigator.Screen name="Win" component={Win}/>
         <MainNavigator.Screen name="Lose" component={Lose}/>
 
       </MainNavigator.Navigator>

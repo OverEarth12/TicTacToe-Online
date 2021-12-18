@@ -4,24 +4,20 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Data
 @Document("matchmaking")
 public class MatchMaking {
     @Id
     private String _id;
-    private String host_name;
+    private List xIndex;
+    private List oIndex;
 
     public MatchMaking(){}
-    public MatchMaking(String id, String host_name){
+    public MatchMaking(String id, List xIndex, List oIndex){
         this._id = id;
-        this.host_name = host_name;
+        this.xIndex = xIndex;
+        this.oIndex = oIndex;
     }
-
-    public String get_id() {
-        return _id;
-    }
-//
-//    public String getName() {
-//        return name;
-//    }
 }
