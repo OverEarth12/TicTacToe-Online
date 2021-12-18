@@ -19,11 +19,6 @@ public class Consumer {
             Arrays.asList(0,4,8),
             Arrays.asList(2,4,6)
     );
-    @RabbitListener(queues = "FieldQueue")
-    public String queuesField(String message){
-        System.out.println("Hello,"+ message);
-        return message;
-    }
     @RabbitListener(queues = "ConclusionQueue")
     public int checkWinner(MatchMaking room){
         int winner = -1;

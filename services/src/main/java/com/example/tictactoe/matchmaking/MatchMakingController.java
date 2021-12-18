@@ -62,29 +62,7 @@ public class MatchMakingController {
     @RequestMapping(value = "/checkWinner", method = RequestMethod.GET)
     public ResponseEntity<?> checkWinner(@RequestParam String room_id){
         MatchMaking getTable = matchMakingService.findMatchById(room_id);
-//        List<List<Integer>> winPattern = Arrays.asList(
-//                Arrays.asList(0,1,2),
-//                Arrays.asList(3,4,5),
-//                Arrays.asList(6,7,8),
-//                Arrays.asList(0,3,6),
-//                Arrays.asList(1,4,7),
-//                Arrays.asList(2,5,8),
-//                Arrays.asList(0,4,8),
-//                Arrays.asList(2,4,6)
-//        );
-//        String winner = null;
-//        for (List win : winPattern) {
-//            if(getTable.getXIndex().containsAll(win)){
-//                winner = "X";
-//                break;
-//            }
-//            if(getTable.getOIndex().containsAll(win)){
-//                winner = "O";
-//                break;
-//            }
-//        }
         Object winner = rabbitTemplate.convertSendAndReceive("Direct", "conclusion",getTable);
-//        System.out.println(getTable);
-        return ResponseEntity.ok((int)winner);
+        return ResponseEntity.ok((Integer)winner);
     }
 }

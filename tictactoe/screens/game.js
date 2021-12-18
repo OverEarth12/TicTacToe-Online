@@ -119,10 +119,12 @@ const checkWinner = () => {
 
   const checkCon = () => {
     axios.get(`/checkWinner?room_id=${authentication.getGameDetail._id}`).then((res) => {
-      if(res.data == authentication.getGameDetail.player){
-        navigation.navigate("Win")
-      }else if(res.data == !authentication.getGameDetail.player){
-        navigation.navigate("Lose")
+      if(res.data === 0 || res.data === 1){
+        if(res.data == authentication.getGameDetail.player){
+          navigation.navigate("Win")
+        }else{
+          navigation.navigate("Lose")
+        }
       }
     });
   }
@@ -136,11 +138,12 @@ const checkWinner = () => {
           setField(dupField)
           forceUpdate(!update);
           setOnPlayer(authentication.getGameDetail.player ? 0:1)
+          checkCon()
         })
       }
     }
   };
-
+  checkCon()
   // let nField = field;
   // nField[num] = xo;
   // setField(nField);
