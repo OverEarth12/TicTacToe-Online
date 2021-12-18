@@ -1,5 +1,6 @@
 package com.example.tictactoe.matchmaking;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,12 +9,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
 public class MatchMakingController {
     @Autowired
     private MatchMakingService matchMakingService;
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @RequestMapping(value = "/createMatch", method = RequestMethod.GET)
     public ResponseEntity<?> createMatch(@RequestParam String room_id){
@@ -58,9 +62,29 @@ public class MatchMakingController {
     @RequestMapping(value = "/checkWinner", method = RequestMethod.GET)
     public ResponseEntity<?> checkWinner(@RequestParam String room_id){
         MatchMaking getTable = matchMakingService.findMatchById(room_id);
-//        for (Object index : getTable.getXIndex()) {
-//
+//        List<List<Integer>> winPattern = Arrays.asList(
+//                Arrays.asList(0,1,2),
+//                Arrays.asList(3,4,5),
+//                Arrays.asList(6,7,8),
+//                Arrays.asList(0,3,6),
+//                Arrays.asList(1,4,7),
+//                Arrays.asList(2,5,8),
+//                Arrays.asList(0,4,8),
+//                Arrays.asList(2,4,6)
+//        );
+//        String winner = null;
+//        for (List win : winPattern) {
+//            if(getTable.getXIndex().containsAll(win)){
+//                winner = "X";
+//                break;
+//            }
+//            if(getTable.getOIndex().containsAll(win)){
+//                winner = "O";
+//                break;
+//            }
 //        }
-        return ResponseEntity.ok("host");
+        Object winner = rabbitTemplate.convertSendAndReceive("Direct", "conclusion",getTable);
+//        System.out.println(getTable);
+        return ResponseEntity.ok((int)winner);
     }
 }

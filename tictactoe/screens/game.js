@@ -76,15 +76,15 @@ const checkWinner = () => {
   //   console.log(authentication.getGameDetail.player, authentication.getProfile.displayName," ->Round: "+authentication.getGameDetail.host_name)
   // }
 
-  if(checkWinner() !== undefined){
-    console.log(checkWinner())
-    if(Boolean(checkWinner()) === Boolean(authentication.getGameDetail.player)){
-      navigation.navigate("Win")
-    }
-    else{
-      navigation.navigate("Lose")
-    }
-  }
+  // if(checkWinner() !== undefined){
+  //   console.log(checkWinner())
+  //   if(Boolean(checkWinner()) === Boolean(authentication.getGameDetail.player)){
+  //     navigation.navigate("Win")
+  //   }
+  //   else{
+  //     navigation.navigate("Lose")
+  //   }
+  // }
 
   if(onPlayer !== authentication.getGameDetail.player){
     const observerPlayer = setInterval(() => {
@@ -99,6 +99,7 @@ const checkWinner = () => {
             setoCount(oCount+1)
             setField(dupField)
             forceUpdate(!update);
+            checkCon()
             }
           }
           else {
@@ -109,11 +110,22 @@ const checkWinner = () => {
             setxCount(xCount+1)
             setField(dupField)
             forceUpdate(!update);
+            checkCon()
           }
         }
         })
       }, 1000);
     }
+
+  const checkCon = () => {
+    axios.get(`/checkWinner?room_id=${authentication.getGameDetail._id}`).then((res) => {
+      if(res.data == authentication.getGameDetail.player){
+        navigation.navigate("Win")
+      }else if(res.data == !authentication.getGameDetail.player){
+        navigation.navigate("Lose")
+      }
+    });
+  }
     
   const indexField = (num) => {
     if(onPlayer === authentication.getGameDetail.player){

@@ -20,4 +20,12 @@ public class MatchMaking {
         this.xIndex = xIndex;
         this.oIndex = oIndex;
     }
+
+    public List getXIndex() {
+        return xIndex;
+    }
+
+    public List getOIndex() {
+        return oIndex;
+    }
 }
