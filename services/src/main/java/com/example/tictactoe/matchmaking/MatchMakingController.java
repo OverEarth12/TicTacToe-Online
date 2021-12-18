@@ -55,4 +55,12 @@ public class MatchMakingController {
             return ResponseEntity.ok("Not Found This Match");
         }
     }
+    @RequestMapping(value = "/checkWinner", method = RequestMethod.GET)
+    public ResponseEntity<?> checkWinner(@RequestParam String room_id){
+        MatchMaking getTable = matchMakingService.findMatchById(room_id);
+//        for (Object index : getTable.getXIndex()) {
+//
+//        }
+        return ResponseEntity.ok("host");
+    }
 }

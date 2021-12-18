@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import axios from "axios";
 
-const Win = ({ navigation }) => {
+const Game = ({ navigation }) => {
   const [onPlayer, setOnPlayer] = useState(0)
   const [update, forceUpdate] = useState(0)
 
@@ -252,4 +252,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default observer(Win);
+export default observer(Game);
